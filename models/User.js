@@ -16,14 +16,14 @@ User.init(
             autoIncrement: true,
             allowNull: false,
         },
-        email: {
-            type: DataTypes.STRING,
-            allowNull: false,
-            unique: true,
-            validate: {
-                isEmail: true
-            },
-        },
+        // email: {
+        //     type: DataTypes.STRING,
+        //     allowNull: false,
+        //     unique: true,
+        //     validate: {
+        //         isEmail: true
+        //     },
+        // },
         username: {
             type: DataTypes.STRING,
             unique: true,
@@ -48,10 +48,10 @@ User.init(
                 return newUserData;
             },
             /* Before adding this add logic to check if password is the same */
-            // afterUpdate: async (updatedUserData) => {
-            //     updatedUserData.password = await bcrypt.hash(newUserData.password, 10);
-            //     return updatedUserData;
-            // },
+            afterUpdate: async (updatedUserData) => {
+                updatedUserData.password = await bcrypt.hash(newUserData.password, 10);
+                return updatedUserData;
+            },
         },
         sequelize,
         timestamps: true,
