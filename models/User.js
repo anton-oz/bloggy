@@ -30,7 +30,7 @@ User.init(
             allowNull: false,
             validate: {
                 is: /^[a-zA-Z0-9]+$/i,
-                len: [8, 16]
+                len: [4, 16]
             },
         },
         password: {
@@ -59,4 +59,6 @@ User.init(
         // freezeTableName: true,
         underscored: true
     }
-)
+);
+
+module.exports = User;
