@@ -9,10 +9,10 @@ router.post('/', async (req, res) => {
             username: req.body.username,
             password: req.body.password
         });
+        console.log('here?')
     
         req.session.save(() => {
             req.session.logged_in = true;
-    
             res.status(201).json(createUser);
         });
     } 
@@ -21,26 +21,25 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.post('/login', async (res, req) => {
-   
+router.post('/login', async (req, res) => {
+   console.log("req.body", req.body);
     try {
         const userData = await User.findOne({ where: { username: req.body.username } });
 
         if (!userData) {
-            res.status(400).json({ error: "incorrect username or password."});
+            res.status(400).json({ error: "incorrect username or password." });
             return;
         };
      
         const validatePassword = userData.checkPassword(req.body.password);
      
         if (!validatePassword) {
-            res.status(400).json({ error: "incorrect username or password."});
+            res.status(400).json({ error: "incorrect username or password." });
             return;
         };
      
         req.session.save(() => {
             req.session.logged_in = true;
-    
             res.status(200).json({ success: "You are now logged in!" });
         });
     } 
@@ -48,6 +47,17 @@ router.post('/login', async (res, req) => {
         res.status(500).json(err);
     }
 
+});
+
+router.post('/logout', (req, res) => {
+    if (req.session.logged_in) {
+        req.session.destroy(() => {
+            res.status(204).end();
+        });
+    }
+    else {
+        res.status(404).end();
+    };
 });
 
 module.exports = router;
