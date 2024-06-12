@@ -18,7 +18,8 @@
                 <div class="navbar-nav fs-4">
                     <a class="btn btn-secondary btn-lg fs-4 mx-4" href="/">HOME</a>
                     <a class="btn btn-secondary btn-lg fs-4 me-4" href="/dashboard">DASHBOARD</a>
-                    <button id="logOut" class="btn btn-primary btn-lg fs-4">Log Out</button>
+                    <button type="button" class="btn btn-success btn-lg fs-4 me-4" data-bs-toggle="modal" data-bs-target="#newPost">Create new post</button>
+                    <button id="logOut" type="button" class="btn btn-primary btn-lg fs-4">Log Out</button>
                 </div>
             </div>
             {{/if}}
@@ -26,6 +27,7 @@
     </nav>
     {{{ body }}}
     {{#if logged_in}}
+    {{> postModal}}
     <script src="/js/logout.js"></script>
     {{/if}}
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

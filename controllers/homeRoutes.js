@@ -3,8 +3,13 @@ const authenticate = require('../utils/authenticate');
 
 const { Post, User } = require('../models');
 // Home
-router.get('/', authenticate, (req, res) => {
+router.get('/', authenticate, async (req, res) => {
+
+    const rawPostData = await Post.findAll();
+    const posts = rawPostData.map(post => post.get({ plain: true }));
+    console.log('posts', posts);
     res.render('homepage', {
+        posts,
         logged_in: req.session.logged_in,
     });
 });

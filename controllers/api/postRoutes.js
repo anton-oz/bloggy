@@ -18,7 +18,7 @@ router.post('/newpost', authenticate, async (req, res) => {
         };
         const newPost = newPostRaw.get({ plain: true });
 
-        console.log(newPost);
+        console.log('newpost', newPost);
         res.status(201).send(newPost);
     } 
     catch (err) {
