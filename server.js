@@ -29,7 +29,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Cookie options
 const sess = {
     secret: 'Super secret secret',
-    cookie: {},
+    cookie: {
+      maxAge: 1000 * 60 * 60, // Expires in 1 hour
+    },
     resave: false,
     saveUninitialized: true,
     store: new SequelizeStore({

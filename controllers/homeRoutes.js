@@ -5,7 +5,17 @@ const { Post, User } = require('../models');
 // Home
 router.get('/', authenticate, async (req, res) => {
 
-    const rawPostData = await Post.findAll();
+    const rawPostData = await Post.findAll({
+        order: [
+            ['createdAt', 'DESC']
+        ],
+        include: [{ 
+            model: User,
+            attributes: {
+                exclude: ['id', 'password', 'createdAt'],
+            }, 
+        }],
+    });
     const posts = rawPostData.map(post => post.get({ plain: true }));
     console.log('posts', posts);
     res.render('homepage', {

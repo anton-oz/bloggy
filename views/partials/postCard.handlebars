@@ -1,0 +1,13 @@
+<div class="card text-center w-50 m-4">
+    <div class="card-header">
+        Featured
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">{{post.title}}</h5>
+        <p class="card-text">{{post.content}}</p>
+        <a href="#" class="btn btn-primary">Comment</a>
+    </div>
+    <div class="card-footer text-body-secondary">
+        {{format_date post.createdAt}} by {{post.User.username}}
+    </div>
+</div>

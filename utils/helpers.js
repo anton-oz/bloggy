@@ -1,15 +1,34 @@
-const { post } = require("../controllers");
+// const { post } = require("../controllers");
 
 module.exports = {
     format_date: (date) => {
         const postDate = new Date(date);
         const now = new Date();
 
-        const dayDifference = (now - postDate) / (1000 * 60 * 60 * 24);
-        const hourDifference = (now - postDate) / (1000 * 60 * 60);
+        const dayDifference = Math.trunc((now - postDate) / (1000 * 60 * 60 * 24));
+        const hourDifference = Math.trunc((now - postDate) / (1000 * 60 * 60)); 
         const minuteDifference = Math.round((now - postDate) / (1000 * 60));
 
         // return `Posted ${dayDifference} day/s and ${hourDifference} hour/s ago. post date ${postDate}`
-        return `Posted ${minuteDifference} minutes ago`;
+        if (minuteDifference <= 1) {
+            return `Posted ${minuteDifference} minute ago`;
+        }
+        else if (minuteDifference < 60) {
+            return `Posted ${minuteDifference} minutes ago`;
+        }
+        else if (minuteDifference >= 60) {
+            const trueMinutes = minuteDifference - (hourDifference * 60);
+            return `Posted ${hourDifference} hours and ${trueMinutes} minutes ago`
+        }
+        else if (dayDifference === 1) {
+            const trueHours = hourDifference - (dayDifference * 24);
+            const trueMinutes = minuteDifference - (hourDifference * 60);
+            return `Posted ${dayDifference} day, ${trueHours} hours, and ${trueMinutes} minutes ago`
+        }
+        else if (dayDifference > 1) {
+            const trueHours = hourDifference - (dayDifference * 24);
+            const trueMinutes = minuteDifference - (hourDifference * 60);
+            return `Posted ${dayDifference} days, ${trueHours} hours, and ${trueMinutes} minutes ago`
+        }
     },
 }

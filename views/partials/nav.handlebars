@@ -1,0 +1,18 @@
+<nav class="navbar sticky-top navbar-expand-lg bg-dark mb-4">
+    <div class="container-fluid">
+        <a class="navbar-brand fs-1 fw-bold text-light" href="/">BLOGGY</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+        </button>
+        {{#if logged_in}}
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav fs-4">
+                <a class="btn btn-secondary btn-lg fs-4 mx-4" href="/">HOME</a>
+                <a class="btn btn-secondary btn-lg fs-4 me-4" href="/dashboard">DASHBOARD</a>
+                <button type="button" class="btn btn-success btn-lg fs-4 me-4" data-bs-toggle="modal" data-bs-target="#newPost">Create new post</button>
+                <button id="logOut" type="button" class="btn btn-primary btn-lg fs-4">Log Out</button>
+            </div>
+        </div>
+        {{/if}}
+    </div>
+</nav>
