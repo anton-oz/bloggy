@@ -1,0 +1,26 @@
+<div class="container-fluid d-flex flex-column">
+    <div class="container-fluid d-flex flex-column align-items-center">
+        <h1>Dashboard</h1>
+        <div class="card text-center w-25">
+            <div class="card-body">
+                <h4 class="card-title">{{username}}</h4>
+                <div class="card-text">{{create_date createdAt}}</div>
+            </div>
+        </div>
+    </div>
+    {{#if posts}}
+    <hr>
+    <h3 class="text-center mt-3">Posts by {{username}}</h3>
+    {{/if}}
+    <div class="container-fluid d-flex flex-row flex-wrap justify-content-center">
+        {{#if posts}}
+            {{#each posts as |post|}}
+                {{> postCard post=post}}
+            {{/each}}
+        {{else}}
+        <div>
+            No posts yet...
+        </div>
+        {{/if}}
+    </div>
+</div>

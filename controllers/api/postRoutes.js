@@ -17,8 +17,6 @@ router.post('/', authenticate, async (req, res) => {
             return;
         };
         const newPost = newPostRaw.get({ plain: true });
-
-        console.log('newpost', newPost);
         res.status(201).json(newPost);
     } 
     catch (err) {
@@ -61,7 +59,8 @@ router.put('/:id', authenticate, (req, res) => {
         if (!updatePost) {
             res.status(400).json({ error: `Post with id: ${req.params.id} does not exist.` });
             return;
-        }
+        };
+        res.status(200).json({ success: `updated post ${req.params.id}.` });
     }
     catch (err) {
         res.status(500).json(err);

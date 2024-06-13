@@ -4,24 +4,59 @@ const authenticate = require('../utils/authenticate');
 const { Post, User } = require('../models');
 // Home
 router.get('/', authenticate, async (req, res) => {
+    try {
+        const rawPostData = await Post.findAll({
+            order: [
+                ['createdAt', 'DESC']
+            ],
+            include: [{ 
+                model: User,
+                attributes: {
+                    exclude: ['id', 'password', 'createdAt'],
+                }, 
+            }],
+        });
+        const posts = rawPostData.map(post => post.get({ plain: true }));
+        console.log('posts', posts);
+        res.render('homepage', {
+            posts,
+            logged_in: req.session.logged_in,
+        });
+    }
+    catch (err) {
+        res.status(500).json(err);
+    };
+});
 
-    const rawPostData = await Post.findAll({
-        order: [
-            ['createdAt', 'DESC']
-        ],
-        include: [{ 
-            model: User,
+router.get('/dashboard', authenticate, async (req, res) => {
+    try {
+        const dbUserData = await User.findByPk(req.session.user_id, {
             attributes: {
-                exclude: ['id', 'password', 'createdAt'],
-            }, 
-        }],
-    });
-    const posts = rawPostData.map(post => post.get({ plain: true }));
-    console.log('posts', posts);
-    res.render('homepage', {
-        posts,
-        logged_in: req.session.logged_in,
-    });
+                exclude: ['password'],
+            },
+            include: [{ 
+                model: Post,
+                where: {
+                    user_id: req.session.user_id,
+                }, 
+            }],
+        });
+        if (!dbUserData) {
+            res.status(400).json({ error: 'database error, check info' });
+            return;
+        }
+        const userData = dbUserData.get({ plain: true });
+
+        res.render('dashboard', {
+            logged_in: req.session.logged_in,
+            username: userData.username,
+            createdAt: userData.createdAt,
+            posts: userData.Posts
+        });
+    }
+    catch (err) {
+        res.status(500).json({error: `caught ${err}`});
+    };
 });
 
 router.get('/post/:id', authenticate, async (req, res) => {
@@ -33,6 +68,7 @@ router.get('/post/:id', authenticate, async (req, res) => {
         }
         let post = rawPost.get({ plain: true });
         res.render('post', {
+            logged_in: req.session.logged_in,
             post
         });
     }

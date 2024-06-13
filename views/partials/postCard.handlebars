@@ -1,11 +1,24 @@
-<div class="card text-center w-50 m-4">
+<div class="card text-center m-4" style="width:30%;">
     <div class="card-header">
         Featured
     </div>
     <div class="card-body">
         <h5 class="card-title">{{post.title}}</h5>
         <p class="card-text">{{post.content}}</p>
-        <a href="#" class="btn btn-primary">Comment</a>
+        <a href="#commentForm{{post.id}}" class="btn btn-primary" data-bs-toggle="collapse" role="button" aria-expanded="false" aria-controls="commentInput{{post.id}}">
+            Comment
+        </a>
+        <div class="collapse mt-3" id="commentForm{{post.id}}">
+            <div class="card card-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="commentInput{{post.id}}" class="form-label">Leave A Comment:</label>
+                        <input class="form-control" id="commentInput{{post.id}}" placeholder="Enter your comment here...">
+                    </div>
+                    <button type="submit" class="btn btn-success">Post Comment!</button>
+                </form>
+            </div>
+        </div>
     </div>
     <div class="card-footer text-body-secondary">
         {{format_date post.createdAt}} by {{post.User.username}}
