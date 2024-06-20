@@ -3,7 +3,7 @@ const authenticate = require('../utils/authenticate');
 
 const { Post, User } = require('../models');
 // Home
-router.get('/', authenticate, async (req, res) => {
+router.get('/', async (req, res) => {
     try {
         const rawPostData = await Post.findAll({
             order: [
